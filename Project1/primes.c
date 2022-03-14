@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include "bit_set.h"
 #include "Eratosthenes.h"
@@ -10,26 +11,30 @@
 
 //TODO zvetsit + pridat cas + dodelat error + makefile
 //TODO cist zadani znovu
-#define N 100
+//TODO static assert for array size
+#define N 300000000
 
 int main () {
     bitset_create(pole, N)
-    unsigned long out[100] = {0};
-
+    clock_t start;
     int ord = 0;
+    unsigned long out[10];
+
+    start = clock();
     Eratosthenes(pole);
 
-    for (unsigned long i = 0; i < N; ++i) {
+    for (unsigned long i = 299999999; i > 0; --i) {
         if (bitset_getbit(pole, i) == 0) {
             out[ord] = i;
             ord++;
         }
-        if (ord == 100)
+        if (ord == 10) {
             break;
+        }
     }
-    for (unsigned long i = 0; i < N; ++i) {
-        if (out[i] != 0)
-            printf("%lu\n", out[i]);
+    for (int i = 9; i >= 0; --i) {
+        printf("%lu\n", out[i]);
     }
+    fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
 
 }
