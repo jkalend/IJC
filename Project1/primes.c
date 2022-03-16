@@ -4,8 +4,7 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <stdlib.h>
-#include "bit_set.h"
+#include "bitset.h"
 #include "Eratosthenes.h"
 
 
@@ -13,17 +12,17 @@
 //TODO cist zadani znovu
 //TODO static assert for array size
 #define N 300000000
-
+//300000000
 int main () {
     bitset_create(pole, N)
     clock_t start;
     int ord = 0;
-    unsigned long out[10];
+    unsigned long out[10] = {0};
 
     start = clock();
     Eratosthenes(pole);
 
-    for (unsigned long i = 299999999; i > 0; --i) {
+    for (unsigned long i = 299999999; i > 0; --i) { //299999999
         if (bitset_getbit(pole, i) == 0) {
             out[ord] = i;
             ord++;

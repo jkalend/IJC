@@ -2,7 +2,7 @@
 // Created by kalen on 2022-03-11.
 //
 
-#include "bit_set.h"
+#include "bitset.h"
 #include <math.h>
 
 #ifndef IJC_ERATOSTHENES_H

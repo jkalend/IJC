@@ -1,9 +1,11 @@
-//
-// Created by kalen on 2022-03-11.
-//
+// bitset.c
+// Řešení IJC-DU1, příklad a), 16.3.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
+// modul nutny pro inline funkce
 
-
-#include "bit_set.h"
+#include "error.h"
+#include "bitset.h"
 
 #ifdef USE_INLINE
 

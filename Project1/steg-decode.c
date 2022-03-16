@@ -4,7 +4,7 @@
 
 #include "ppm.h"
 #include "error.h"
-#include "bit_set.h"
+#include "bitset.h"
 #include "Eratosthenes.h"
 
 int main (int argc, char **argv) {
@@ -16,41 +16,38 @@ int main (int argc, char **argv) {
     if (PPM == NULL) {
         error_exit("fail\n");
     }
-    bitset_alloc(pole,PPM->xsize*PPM->ysize*3)
-    Eratosthenes(pole);
+    bitset_alloc(numbers,PPM->xsize*PPM->ysize*3)
+    Eratosthenes(numbers);
 
-    bitset_create(out, CHAR_BIT)
-    //char output[1] = {0};
+    //bitset_create(out, CHAR_BIT)
+    char out[2] = {CHAR_BIT, 0};
     int j = 0;
     int done = 0;
     char *data = PPM->data;
 
     for (unsigned int i = 29; i < PPM->xsize*PPM->ysize*3; i++) {
-        if (bitset_getbit(pole, i) == 0) {
+        if (!(bitset_getbit(numbers, i))) {
             unsigned long bit = bitset_getbit((&(data[i])), 0);
             bitset_setbit(out, j, bit);
             j++;
         }
         if (j >= 8) {
             if (out[1] == '\0'){
-                putchar('\n');
-                //printf("\n");
+                printf("\n");
                 done = 1;
                 break;
             }
-            putchar(out[1]);
-            //printf("%c",output[0]);
+            printf("%c",out[1]);
             j = 0;
             out[1] = 0;
         }
     }
 
     ppm_free(PPM);
-    bitset_free(pole);
+    bitset_free(numbers);
     if (!done) {
         error_exit("Zprava nenalezena\n");
     } else {
         return EXIT_SUCCESS;
     }
-
 }

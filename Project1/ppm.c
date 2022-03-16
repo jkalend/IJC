@@ -27,9 +27,9 @@ struct ppm* ppm_read(const char* filename) {
         return NULL;
     }
 
-
-    int check = fscanf(fp, "%d %d", &PPM->xsize, &PPM->ysize);
-    if (check != 2) {
+    unsigned bitrate;
+    int check = fscanf(fp, "%u %u %u", &PPM->xsize, &PPM->ysize, &bitrate);
+    if (check != 3 || bitrate != 255) {
         fclose(fp);
         ppm_free(PPM);
         warning_msg("Soubor %s ma neplatny format\n", filename);
@@ -42,17 +42,6 @@ struct ppm* ppm_read(const char* filename) {
         ppm_free(PPM);
     }
 
-    int bitrate;
-    check = fscanf(fp, "%d", &bitrate);
-    if (check != 1 || bitrate != 255) {
-        fclose(fp);
-        ppm_free(PPM);
-        warning_msg("Soubor %s ma neplatny format\n", filename);
-        return NULL;
-    }
-
-    //while (fgetc(fp) != '\n') ;
-    //memory allocation for pixel data
     PPM->data = malloc(3 * PPM->xsize * PPM->ysize);
 
     if (PPM->data == NULL) {
@@ -61,7 +50,7 @@ struct ppm* ppm_read(const char* filename) {
         error_exit("Alokace selhala\n");
     }
 
-    //read pixel data from file
+
     if (fread(PPM->data, sizeof(char), (3* PPM->xsize * PPM->ysize), fp) != (3* PPM->xsize * PPM->ysize)) {
         warning_msg("Chyba pri cteni souboru %s\n", filename);
         ppm_free(PPM);
@@ -72,7 +61,6 @@ struct ppm* ppm_read(const char* filename) {
     fclose(fp);
 
     return PPM;
-
 }
 
 void ppm_free(struct ppm *p) {
@@ -80,17 +68,3 @@ void ppm_free(struct ppm *p) {
         free(p->data);
     free(p);
 }
-/*
-int main (int argc, char **argv) {
-    if (argc != 2) {
-        warning_msg("Neplatne argumenty\n");
-        return 1;
-    }
-    struct ppm *ppm_ptr = ppm_read(argv[1]);
-    if(ppm_ptr == NULL) {
-        error_exit("fail\n");
-    }
-    ppm_free(ppm_ptr);
-    //printf("%s\n", ppm_ptr->data);
-}
-*/
