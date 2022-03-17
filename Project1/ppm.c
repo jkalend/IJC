@@ -1,6 +1,8 @@
-//
-// Created by kalen on 2022-03-14.
-//
+// ppm.c
+// Řešení IJC-DU1, příklad b), 16.3.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
+// limit pole nastaven na 8000 * 8000 * 3
 
 #include "ppm.h"
 
@@ -18,7 +20,7 @@ struct ppm* ppm_read(const char* filename) {
         error_exit("Alokace selhala\n");
     }
 
-    char format[16];
+    char format[3]; // P + 6 + \0
     fgets(format, sizeof(format), fp);
     if (format[0] != 'P' && format[1] != '6') {
         fclose(fp);
@@ -27,9 +29,9 @@ struct ppm* ppm_read(const char* filename) {
         return NULL;
     }
 
-    unsigned bitrate;
-    int check = fscanf(fp, "%u %u %u", &PPM->xsize, &PPM->ysize, &bitrate);
-    if (check != 3 || bitrate != 255) {
+    unsigned int bitrate;
+    int args = fscanf(fp, "%u %u %u", &PPM->xsize, &PPM->ysize, &bitrate);
+    if (args != 3 || bitrate != 255) {
         fclose(fp);
         ppm_free(PPM);
         warning_msg("Soubor %s ma neplatny format\n", filename);
@@ -40,6 +42,7 @@ struct ppm* ppm_read(const char* filename) {
         warning_msg("Rozliseni obrazku je prilis velke\n");
         fclose(fp);
         ppm_free(PPM);
+        return NULL;
     }
 
     PPM->data = malloc(3 * PPM->xsize * PPM->ysize);

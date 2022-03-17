@@ -1,6 +1,7 @@
-//
-// Created by kalen on 2022-03-14.
-//
+// error.c
+// Řešení IJC-DU1, příklad b), 16.3.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #include "error.h"
 

@@ -6,15 +6,16 @@
 
 #include <limits.h>
 #include <stdlib.h>
-#include "error.h"
 #include <stdio.h>
 #include <assert.h>
+#include "error.h"
 
 #ifndef BITSET_H
 #define BITSET_H
 
 typedef unsigned long bitset_t[];
 typedef unsigned long bitset_index_t;
+typedef unsigned long UL;
 
 #define UL_BITS (sizeof(unsigned long) * CHAR_BIT)
 
@@ -33,11 +34,10 @@ typedef unsigned long bitset_index_t;
 #ifdef USE_INLINE
 inline unsigned long bitset_size(bitset_t jmeno_pole) {return jmeno_pole[0];}
 
-    //TODO fix error_exit indices
 inline unsigned long bitset_getbit(bitset_t jmeno_pole, bitset_index_t index) {
     if ((unsigned long)(index) >= (unsigned long)((jmeno_pole)[0]))
     (error_exit("bitset_getbit: Index %lu mimo rozsah 0..%lu",(unsigned long)(index), (unsigned long)((jmeno_pole)[0]-1)));
-     return (((jmeno_pole)[(index) / UL_BITS + 1] & (1UL<< ((index) % UL_BITS)))!= 0 );
+     return (!!((jmeno_pole)[(index) / UL_BITS + 1] & (1UL<< ((index) % UL_BITS))));
     }
 
 inline void bitset_setbit(bitset_t jmeno_pole, bitset_index_t index, unsigned long vyraz) {
@@ -70,7 +70,9 @@ inline void bitset_free(bitset_t jmeno_pole) {free((jmeno_pole));}
 #define bitset_getbit(jmeno_pole, index) \
         ((unsigned long)(index) >= (unsigned long)((jmeno_pole)[0])) ? \
         (error_exit("bitset_getbit: Index %lu mimo rozsah 0..%lu",(unsigned long)(index), (unsigned long)((jmeno_pole)[0]-1)), 0) : \
-        (((jmeno_pole)[(((unsigned long)(index))/UL_BITS) + 1] & (1UL << (((unsigned long)(index))%UL_BITS))) != 0)
+        (!!(((jmeno_pole)[(((unsigned long)(index))/UL_BITS) + 1] & (1UL << (((unsigned long)(index)) % UL_BITS)))))
+
+// !!() pro prevod jakehokoliv cisla na 0 nebo 1
 
 
 #endif //USE_INLINE

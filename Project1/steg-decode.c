@@ -1,6 +1,7 @@
-//
-// Created by kalen on 2022-03-14.
-//
+// steg-decode.c
+// Řešení IJC-DU1, příklad b), 17.3.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #include "ppm.h"
 #include "error.h"
@@ -19,15 +20,13 @@ int main (int argc, char **argv) {
     bitset_alloc(numbers,PPM->xsize*PPM->ysize*3)
     Eratosthenes(numbers);
 
-    //bitset_create(out, CHAR_BIT)
     char out[2] = {CHAR_BIT, 0};
     int j = 0;
     int done = 0;
-    char *data = PPM->data;
 
     for (unsigned int i = 29; i < PPM->xsize*PPM->ysize*3; i++) {
         if (!(bitset_getbit(numbers, i))) {
-            unsigned long bit = bitset_getbit((&(data[i])), 0);
+            unsigned long bit = bitset_getbit((&(PPM->data[i])), 0);
             bitset_setbit(out, j, bit);
             j++;
         }

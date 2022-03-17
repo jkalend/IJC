@@ -1,6 +1,8 @@
-//
-// Created by kalen on 2022-03-11.
-//
+// primes.c
+// Řešení IJC-DU1, příklad a), 16.3.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
+// potreba ulimit -s 40000
 
 #include <stdio.h>
 #include <time.h>
@@ -9,25 +11,23 @@
 
 
 //TODO zvetsit + pridat cas + dodelat error + makefile
-//TODO cist zadani znovu
-//TODO static assert for array size
-#define N 300000000
-//300000000
+#define SIZE 300000000
+
 int main () {
-    bitset_create(pole, N)
+    bitset_create(pole, SIZE)
     clock_t start;
-    int ord = 0;
+    int order = 0;
     unsigned long out[10] = {0};
 
     start = clock();
     Eratosthenes(pole);
 
-    for (unsigned long i = 299999999; i > 0; --i) { //299999999
+    for (unsigned long i = SIZE-1; i > 0; --i) {
         if (bitset_getbit(pole, i) == 0) {
-            out[ord] = i;
-            ord++;
+            out[order] = i;
+            order++;
         }
-        if (ord == 10) {
+        if (order == 10) {
             break;
         }
     }

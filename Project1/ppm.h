@@ -1,6 +1,8 @@
-//
-// Created by kalen on 2022-03-14.
-//
+// ppm.h
+// Řešení IJC-DU1, příklad b), 16.3.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
+// limit pole nastaven na 8000 * 8000 * 3
 
 #include <stdio.h>
 #include <stdlib.h>
