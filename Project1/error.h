@@ -4,9 +4,6 @@
 // Přeloženo: gcc 11.2
 
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #ifndef IJC_ERROR_H
 #define IJC_ERROR_H

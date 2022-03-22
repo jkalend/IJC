@@ -4,14 +4,13 @@
 // Přeloženo: gcc 11.2
 // modul nutny pro inline funkce
 
-#include "error.h"
 #include "bitset.h"
 
 #ifdef USE_INLINE
 
-    extern inline unsigned long bitset_getbit(bitset_t jmeno_pole, bitset_index_t index);
-    extern inline unsigned long bitset_size(bitset_t jmeno_pole);
-    extern inline void bitset_setbit(bitset_t jmeno_pole, bitset_index_t index, unsigned long value);
-    extern inline void bitset_free(bitset_t jmeno_pole);
+extern inline unsigned long bitset_getbit(bitset_t jmeno_pole, bitset_index_t index);
+extern inline unsigned long bitset_size(bitset_t jmeno_pole);
+extern inline void bitset_setbit(bitset_t jmeno_pole, bitset_index_t index, unsigned long value);
+extern inline void bitset_free(bitset_t jmeno_pole);
 
 #endif

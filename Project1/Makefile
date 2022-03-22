@@ -4,18 +4,18 @@ CFLAGS = -g -O2 -std=c11 -Wall -Wextra -pedantic -lm
 
 all: primes primes-i steg-decode
 
-run: primes primes-i
+run: primes primes-i steg-decode
 		ulimit -s 40000 && ./primes
 		ulimit -s 40000 && ./primes-i
 
 primes: bitset.o Eratosthenes.o primes.o error.o
-		$(CC) $(CFLAGS) bitset.o bitset.o Eratosthenes.o primes.o error.o -o primes
+		$(CC) $(CFLAGS) bitset.o Eratosthenes.o bitset.o primes.o error.o -o primes
 
 primes-i: bitset-i.o Eratosthenes-i.o primes.o error.o
-		$(CC) $(CFLAGS)  bitset-i.o Eratosthenes-i.o primes.o error.o -o primes-i
+		$(CC) $(CFLAGS) -DUSE_INLINE bitset-i.o Eratosthenes-i.o primes.o error.o -o primes-i
 
-steg-decode: ppm.o error.o steg-decode.o Eratosthenes.o
-		$(CC) $(CFLAGS) ppm.o error.o steg-decode.o Eratosthenes.o -o steg-decode
+steg-decode: ppm.o Eratosthenes.o error.o steg-decode.o
+		$(CC) $(CFLAGS) ppm.o Eratosthenes.o error.o steg-decode.o -o steg-decode
 
 
 
@@ -34,18 +34,19 @@ Eratosthenes.o: Eratosthenes.c Eratosthenes.h
 
 
 
+bitset-i.o: bitset.c bitset.h
+		$(CC) $(CFLAGS) -DUSE_INLINE -c bitset.c -o bitset-i.o
+
 Eratosthenes-i.o: Eratosthenes.c Eratosthenes.h
 		$(CC) $(CFLAGS) -DUSE_INLINE -c Eratosthenes.c -o Eratosthenes-i.o
 
-bitset-i.o: bitset.c bitset.h
-		$(CC) $(CFLAGS) -DUSE_INLINE -c bitset.c -o bitset-i.o
 
 
 
 ppm.o: ppm.c ppm.h
 	 	$(CC) $(CFLAGS) -c ppm.c -o ppm.o
 
-steg-decode.o: steg-decode.c Eratosthenes.h ppm.h error.h
+steg-decode.o: steg-decode.c  ppm.h error.h
 		$(CC) $(CFLAGS) -c steg-decode.c -o steg-decode.o
 
 

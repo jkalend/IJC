@@ -4,9 +4,10 @@
 // Přeloženo: gcc 11.2
 // stredniky za setbit jsou nutne pro inline
 
-
-#include "bitset.h"
 #include "Eratosthenes.h"
+#include "bitset.h"
+#include <math.h>
+
 
 void Eratosthenes(bitset_t pole) {
     unsigned long max = sqrt(bitset_size(pole));

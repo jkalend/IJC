@@ -4,6 +4,8 @@
 // Přeloženo: gcc 11.2
 // limit pole nastaven na 8000 * 8000 * 3
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "ppm.h"
 
 struct ppm* ppm_read(const char* filename) {

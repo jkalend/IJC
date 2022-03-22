@@ -6,7 +6,6 @@
 
 #include <limits.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
 #include "error.h"
 
@@ -20,14 +19,14 @@ typedef unsigned long UL;
 #define UL_BITS (sizeof(unsigned long) * CHAR_BIT)
 
 
-#define bitset_create(jmeno_pole, velikost)_Static_assert(!((velikost) < 1), "Velikost pole nemuze byt mensi jak 1");\
+#define bitset_create(jmeno_pole, velikost)_Static_assert(((velikost) > 0), "Velikost pole nemuze byt mensi jak 1");\
                 UL (jmeno_pole) [((velikost) / UL_BITS) + 1 + (((velikost) % UL_BITS) ? 1 : 0)] = {velikost};
 
 #define bitset_alloc(jmeno_pole, velikost) assert((velikost) > 0);\
                 UL *(jmeno_pole) = (UL *)calloc(((velikost) / UL_BITS) + 1 + \
                 (((velikost) % UL_BITS) ? 1 : 0), sizeof(UL)); \
                 if ((jmeno_pole) == NULL)                     \
-                { error_exit("Aloakce pameti selhala\n");                        \
+                { error_exit("Aloakce pameti selhala\n");                          \
                 } *(jmeno_pole) = velikost;
 
 
