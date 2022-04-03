@@ -9,31 +9,30 @@
 #include "bitset.h"
 #include "Eratosthenes.h"
 
-
-//TODO zvetsit + pridat cas + dodelat error + makefile
 #define SIZE 300000000
 
-int main () {
-    bitset_create(pole, SIZE)
-    clock_t start;
-    int order = 0;
-    unsigned long out[10] = {0};
+int main()
+{
+	bitset_create(pole, SIZE) clock_t start;
+	int order = 0;
+	unsigned long out[10] = { 0 };
 
-    start = clock();
-    Eratosthenes(pole);
+	start = clock();
+	Eratosthenes(pole);
 
-    for (unsigned long i = SIZE-1; i > 0; --i) {
-        if (bitset_getbit(pole, i) == 0) {
-            out[order] = i;
-            order++;
-        }
-        if (order == 10) {
-            break;
-        }
-    }
-    for (int i = 9; i >= 0; --i) {
-        printf("%lu\n", out[i]);
-    }
-    fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
+	for (unsigned long i = SIZE - 1; i > 0; --i) {
+		if (bitset_getbit(pole, i) == 0) {
+			out[order] = i;
+			order++;
+		}
+		if (order == 10) {
+			break;
+		}
+	}
 
+	//pro tisk poslednich 10 cisel naopak
+	for (int i = 9; i >= 0; --i) {
+		printf("%lu\n", out[i]);
+	}
+	fprintf(stderr, "Time=%.3g\n", (double)(clock() - start) / CLOCKS_PER_SEC);
 }

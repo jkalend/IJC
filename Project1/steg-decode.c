@@ -21,24 +21,24 @@ int main(int argc, char **argv)
 	}
 	bitset_alloc(numbers, PPM->xsize * PPM->ysize * 3) Eratosthenes(numbers);
 
-	char out[2] = { CHAR_BIT, 0 };
-	int j = 0;
+	char out[2] = { CHAR_BIT, 0 }; //struktura pole pro potreby setbitu a getbitu
+	int char_index = 0;
 	int done = 0;
 
 	for (unsigned int i = 29; i < PPM->xsize * PPM->ysize * 3; i++) {
 		if (!(bitset_getbit(numbers, i))) {
 			unsigned long bit = bitset_getbit((&(PPM->data[i])), 0);
-			bitset_setbit(out, j, bit);
-			j++;
+			bitset_setbit(out, char_index, bit);
+			char_index++;
 		}
-		if (j >= 8) {
+		if (char_index >= 8) {
 			if (out[1] == '\0') {
 				printf("\n");
 				done = 1;
 				break;
 			}
 			printf("%c", out[1]);
-			j = 0;
+			char_index = 0;
 			out[1] = 0;
 		}
 	}

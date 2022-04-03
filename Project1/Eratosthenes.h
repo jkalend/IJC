@@ -1,6 +1,8 @@
-//
-// Created by kalen on 2022-03-19.
-//
+// Eratosthenes.h
+// Řešení IJC-DU1, příklad a), 16.3.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
+// include guardy a deklarace funkce
 
 #include "bitset.h"
 

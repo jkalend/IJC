@@ -1,3 +1,9 @@
+# Makefile
+# Řešení IJC-DU1, příklad c), 16.3.2022
+# Autor: Jan Kalenda, FIT
+# Přeloženo: gcc 11.2
+
+
 LC_ALL=cs._CZ.utf8
 CC=gcc
 CFLAGS = -g -O2 -std=c11 -Wall -Wextra -pedantic -lm
@@ -7,6 +13,7 @@ all: primes primes-i steg-decode
 run: primes primes-i steg-decode
 		ulimit -s 40000 && ./primes
 		ulimit -s 40000 && ./primes-i
+
 
 primes: bitset.o Eratosthenes.o primes.o error.o
 		$(CC) $(CFLAGS) bitset.o Eratosthenes.o bitset.o primes.o error.o -o primes
