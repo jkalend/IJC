@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
-
+/*
+// a safer realloc freeing the old memory
 void *Realloc(void *ptr, size_t size)
 {
 	if (size <= 0)
@@ -25,11 +25,9 @@ void *Realloc(void *ptr, size_t size)
 
 	else
 		return tmp;
-}
+}*/
 
-//create a tail function that takes a file name and number of lines to output
-//the last number of lines of the file
-
+/*
 void tail (FILE *fp, long line_count) {
 	bool error = false;
 	bool skip = false;
@@ -44,13 +42,14 @@ void tail (FILE *fp, long line_count) {
 			continue;
 		}
 		//checks whether the line is a complete line
-		if (buffer[strlen(buffer) - 2] != '\n') {
+		if (buffer[strlen(buffer) - 1] != '\n') {
+			fprintf(stderr, "%d\n", buffer[strlen(buffer)-1]);
 			if (error == false) {
-				fprintf(stderr, "A least one line is too long\n");
+				fprintf(stderr, "At least one line is too long\n");
 				error = true;
 			}
-			buffer[strlen(buffer) - 1] = '\0';
-			buffer[strlen(buffer) - 2] = '\n';
+			buffer[strlen(buffer)] = '\0';
+			buffer[strlen(buffer) - 1] = '\n';
 			skip = true;
 		}
 
@@ -71,11 +70,60 @@ void tail (FILE *fp, long line_count) {
 	for (long i = line_number - line_count; i < line_number; i++) {
 		printf("%s", lines[i]);
 	}
+	for (long i = 0; i < line_number; i++) {
+		free(lines[i]);
+	}
+	free(lines);
+}*/
+
+void tail (FILE *fp, long line_count) {
+	char line[4096];
+	int total_lines = 0;
+	bool error = false;
+	bool skip = false;
+	if (fp == NULL) {
+		printf("File not found\n");
+		exit(EXIT_FAILURE);
+	}
+	//counts the number of lines in the file
+	while (fgets(line, 4096, fp) != NULL) {
+		if (skip == true) {
+			skip = false;
+			total_lines++;
+			continue;
+		}
+		//checks whether the line is a complete line
+		if (line[strlen(line) - 1] != '\n') {
+
+			if (error == false) {
+				fprintf(stderr, "At least one line is too long\n");
+				error = true;
+			}
+			line[strlen(line)] = '\0';
+			line[strlen(line) - 1] = '\n';
+			skip = true;
+		}
+		total_lines++;
+	}
+
+	//returns to the beginning of the file
+	rewind(fp);
+
+	// reaches the line to be printed, indicated by line_count
+	for (int j = 0; j < total_lines - line_count; j++) {
+		fgets(line, 4096, fp);
+	}
+	// prints the lines, if the line_count is larger than the number of lines in the file
+	// it prints all the lines
+	while (fgets(line, 4096, fp) != NULL) {
+		printf("%s", line);
+	}
 }
 
 int main(int argc, char *argv[]) {
 	if (argc == 1) {
-		tail(stdin, 10);
+		FILE* in = stdin;
+		tail(in, 10);
 	} else if (argc == 2 && strcmp(argv[1], "-n") == 0) {
 		fprintf(stderr, "Option -n without a number\n");
 		return 1;
