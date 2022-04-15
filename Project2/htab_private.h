@@ -15,7 +15,7 @@ typedef struct htab_listitem {
 struct htab {
 	size_t size;
 	size_t arr_size;
-	struct htab_listitem **list;
+	htab_listitem_t **list;
 };
 
 #endif //IJC_HTAB_PRIVATE_H

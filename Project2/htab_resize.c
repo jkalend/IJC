@@ -4,6 +4,7 @@
 
 #include "htab.h"
 #include "htab_private.h"
+#include <stdlib.h>
 
 void htab_resize(htab_t *t, size_t size)
 {
@@ -12,13 +13,10 @@ void htab_resize(htab_t *t, size_t size)
 	for (unsigned int i = 0; i < t->arr_size; i++) {
 		htab_listitem_t *item = t->list[i];
 
-		while (item != NULL) {
-			htab_insert(new_htab, item->key, item->data);
-			item = item->next;
-		}
+		new_htab->list[i] = item;
+		t->list[i] = NULL;
 	}
 
 	htab_free(t);
 	*t = *new_htab;
-	free(new_htab);
 }

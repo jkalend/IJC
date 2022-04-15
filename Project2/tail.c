@@ -6,26 +6,68 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-/*
-// a safer realloc freeing the old memory
-void *Realloc(void *ptr, size_t size)
-{
-	if (size <= 0)
-	{
-		if (ptr != NULL) free(ptr);
-		return NULL;
+
+#define LIMIT 4096
+
+void tail (FILE *fp, long line_count) {
+	bool error = false;
+	bool skip = false;
+	//long line_number = 0;
+	char **lines = malloc(sizeof(char*) * line_count);
+	if (lines == NULL) {
+		fprintf(stderr, "Allocation failed\n");
+		exit(EXIT_FAILURE);
 	}
 
-	void *tmp = realloc(ptr, size);
-	if (tmp == NULL)
-	{
-		if (ptr != NULL) free(ptr);
-		return NULL;
+	for (int i = 0; i < line_count; i++) {
+		lines[i] = malloc(sizeof(char) * LIMIT);
+		lines[i][0] = '\0';
+		if (lines[i] == NULL) {
+			fprintf(stderr, "Allocation failed\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 
-	else
-		return tmp;
-}*/
+	char buffer[LIMIT] = {0};
+	while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		// skips the rest of the line
+		if (skip == true && buffer[strlen(buffer) - 1] != '\n') {
+			continue;
+		} else if (skip == true) {
+			skip = false;
+			continue;
+		}
+		//checks whether the line is a complete line
+		if (buffer[strlen(buffer) - 1] != '\n') {
+			//fprintf(stderr, "%d\n", buffer[strlen(buffer)-1]);
+			if (error == false) {
+				fprintf(stderr, "At least one line is too long\n");
+				error = true;
+			}
+			buffer[strlen(buffer)] = '\0';
+			buffer[strlen(buffer) - 1] = '\n';
+			skip = true;
+		}
+		//printf("%s", lines[9]);
+		for (long i = line_count-1; i > 0; i--) {
+			memcpy(lines[i], lines[i-1], sizeof(char) * LIMIT);
+		}
+		memcpy(lines[0], buffer, sizeof(char) * LIMIT);
+	}
+
+	for (long i = line_count-1; i >= 0; i--) {
+		if (lines[i][0] != 0) {
+			printf("%s", lines[i]);
+		}
+	}
+	for (long i = 0; i < line_count; i++) {
+		free(lines[i]);
+	}
+	free(lines);
+}
+
+
+
 
 /*
 void tail (FILE *fp, long line_count) {
@@ -75,7 +117,7 @@ void tail (FILE *fp, long line_count) {
 	}
 	free(lines);
 }*/
-
+/*
 void tail (FILE *fp, long line_count) {
 	char line[4096];
 	int total_lines = 0;
@@ -118,7 +160,7 @@ void tail (FILE *fp, long line_count) {
 	while (fgets(line, 4096, fp) != NULL) {
 		printf("%s", line);
 	}
-}
+}*/
 
 int main(int argc, char *argv[]) {
 	if (argc == 1) {
@@ -138,7 +180,9 @@ int main(int argc, char *argv[]) {
 		tail(fp, 10);
 		fclose(fp);
 	} else if (argc == 3 && strcmp(argv[1], "-n") == 0) {
-		if (strtol(argv[2], NULL, 10) < 0) {
+		char *errptr=NULL;
+		strtol(argv[2], &errptr, 10);
+		if (*errptr != 0) {
 			fprintf(stderr, "Invalid number of lines\n");
 			return 1;
 		}
@@ -165,7 +209,7 @@ int main(int argc, char *argv[]) {
 		tail(fp, strtol(argv[2], NULL, 10));
 		fclose(fp);
 	} else {
-		fprintf(stderr, "Invalid number of arguments\n");
+		fprintf(stderr, "Invalid arguments\n");
 		return 1;
 	}
 
