@@ -5,8 +5,7 @@
 #include "htab.h"
 #include "htab_private.h"
 
-htab_pair_t *htab_find(htab_t * t, htab_key_t key)
-{
+htab_pair_t *htab_find(htab_t * t, htab_key_t key) {
 	if (t == NULL || key == NULL) {
 		return NULL;
 	}
@@ -16,11 +15,11 @@ htab_pair_t *htab_find(htab_t * t, htab_key_t key)
 	htab_listitem_t *item = t->list[index];
 
 	while (item != NULL) {
-		if (item->data->key == key) {
+		if (strcmp(item->data->key, key) == 0) {
 			pair = item->data;
 			break;
 		}
-		item = item->next; //FIXME why? 1 index will have the same key?
+		item = item->next;
 	}
 	return pair;
 }

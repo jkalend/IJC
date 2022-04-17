@@ -6,8 +6,7 @@
 #include "htab_private.h"
 #include <stdlib.h>
 
-void htab_free(htab_t *t)
-{
+void htab_free(htab_t *t) {
 	if (t == NULL)
 		return;
 

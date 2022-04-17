@@ -17,13 +17,17 @@ void htab_clear(htab_t *t) {
 		while (item != NULL) {
 			htab_listitem_t *tmp = item;
 			item = item->next;
+			if (tmp->data->key != NULL) {
+				//const char *key = tmp->data->key;
+				free(tmp->data->key);
+			}
+			free(tmp->data);
 			free(tmp);
 		}
+		t->list[i] = NULL;
 	}
 	free(t->list);
 
-	// reset all values
-	t->arr_size = 0;
+	// reset size
 	t->size = 0;
-	t->list = NULL;
 }

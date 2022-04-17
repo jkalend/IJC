@@ -7,6 +7,9 @@
 
 #include "htab.h"
 
+#define AVG_LEN_MAX 0.7
+#define AVG_LEN_MIN 0.25
+
 typedef struct htab_listitem {
 	htab_pair_t *data;
 	struct htab_listitem *next;

@@ -13,7 +13,7 @@ struct htab;    // neúplná deklarace struktury - uživatel nevidí obsah
 typedef struct htab htab_t;     // typedef podle zadání
 
 // Typy:
-typedef const char * htab_key_t;        // typ klíče
+typedef char * htab_key_t;        // typ klíče
 typedef int htab_value_t;               // typ hodnoty
 
 // Dvojice dat v tabulce:
