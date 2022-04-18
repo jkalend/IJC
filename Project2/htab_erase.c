@@ -1,7 +1,7 @@
-//
-// Created by kalen on 15.04.22.
-//
-//TODO resize when size drops below 1/2 of the macro
+// htab_erase.c
+// Řešení IJC-DU2, příklad 2), 16.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #include "htab.h"
 #include "htab_private.h"

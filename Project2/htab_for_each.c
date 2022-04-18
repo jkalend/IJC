@@ -1,6 +1,7 @@
-//
-// Created by kalen on 14.04.22.
-//
+// htab_for_each.c
+// Řešení IJC-DU2, příklad 2), 15.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #include "htab.h"
 #include "htab_private.h"

@@ -1,6 +1,7 @@
-//
-// Created by kalen on 10.04.22.
-//
+// htab_private.h
+// Řešení IJC-DU2, příklad 2), 11.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #ifndef IJC_HTAB_PRIVATE_H
 #define IJC_HTAB_PRIVATE_H

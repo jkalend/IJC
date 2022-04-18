@@ -1,6 +1,7 @@
-//
-// Created by kalen on 03.04.22.
-//
+// tail.c
+// Řešení IJC-DU2, příklad 1), 14.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +13,6 @@
 void tail (FILE *fp, long line_count) {
 	bool error = false;
 	bool skip = false;
-	//long line_number = 0;
 	char **lines = malloc(sizeof(char*) * line_count);
 	if (lines == NULL) {
 		fprintf(stderr, "Allocation failed\n");
@@ -39,7 +39,6 @@ void tail (FILE *fp, long line_count) {
 		}
 		//checks whether the line is a complete line
 		if (buffer[strlen(buffer) - 1] != '\n') {
-			//fprintf(stderr, "%d\n", buffer[strlen(buffer)-1]);
 			if (error == false) {
 				fprintf(stderr, "At least one line is too long\n");
 				error = true;
@@ -48,7 +47,6 @@ void tail (FILE *fp, long line_count) {
 			buffer[strlen(buffer) - 1] = '\n';
 			skip = true;
 		}
-		//printf("%s", lines[9]);
 		for (long i = line_count-1; i > 0; i--) {
 			memcpy(lines[i], lines[i-1], sizeof(char) * LIMIT);
 		}
@@ -65,102 +63,6 @@ void tail (FILE *fp, long line_count) {
 	}
 	free(lines);
 }
-
-
-
-
-/*
-void tail (FILE *fp, long line_count) {
-	bool error = false;
-	bool skip = false;
-	long line_number = 0;
-	char **lines = malloc(sizeof(char*));
-
-	char buffer[4096] = {0};
-	while (fgets(buffer, sizeof(buffer), fp) != NULL) {
-		// skips the rest of the line
-		if (skip == true) {
-			skip = false;
-			continue;
-		}
-		//checks whether the line is a complete line
-		if (buffer[strlen(buffer) - 1] != '\n') {
-			fprintf(stderr, "%d\n", buffer[strlen(buffer)-1]);
-			if (error == false) {
-				fprintf(stderr, "At least one line is too long\n");
-				error = true;
-			}
-			buffer[strlen(buffer)] = '\0';
-			buffer[strlen(buffer) - 1] = '\n';
-			skip = true;
-		}
-
-		line_number++;
-		lines = Realloc(lines, sizeof(char*) * line_number);
-		if (lines == NULL) {
-			fprintf(stderr, "Allocation failed\n");
-			exit(EXIT_FAILURE);
-		}
-		lines[line_number - 1] = malloc(sizeof(char) * (strlen(buffer) + 1));
-		if (lines[line_number - 1] == NULL) {
-			fprintf(stderr, "Allocation failed\n");
-			exit(EXIT_FAILURE);
-		}
-		strcpy(lines[line_number - 1], buffer);
-	}
-
-	for (long i = line_number - line_count; i < line_number; i++) {
-		printf("%s", lines[i]);
-	}
-	for (long i = 0; i < line_number; i++) {
-		free(lines[i]);
-	}
-	free(lines);
-}*/
-/*
-void tail (FILE *fp, long line_count) {
-	char line[4096];
-	int total_lines = 0;
-	bool error = false;
-	bool skip = false;
-	if (fp == NULL) {
-		printf("File not found\n");
-		exit(EXIT_FAILURE);
-	}
-	//counts the number of lines in the file
-	while (fgets(line, 4096, fp) != NULL) {
-		if (skip == true) {
-			skip = false;
-			total_lines++;
-			continue;
-		}
-		//checks whether the line is a complete line
-		if (line[strlen(line) - 1] != '\n') {
-
-			if (error == false) {
-				fprintf(stderr, "At least one line is too long\n");
-				error = true;
-			}
-			line[strlen(line)] = '\0';
-			line[strlen(line) - 1] = '\n';
-			skip = true;
-		}
-		total_lines++;
-	}
-
-	//returns to the beginning of the file
-	rewind(fp);
-
-	// reaches the line to be printed, indicated by line_count
-	for (int j = 0; j < total_lines - line_count; j++) {
-		fgets(line, 4096, fp);
-	}
-	// prints the lines, if the line_count is larger than the number of lines in the file
-	// it prints all the lines
-	while (fgets(line, 4096, fp) != NULL) {
-		printf("%s", line);
-	}
-}*/
 
 int main(int argc, char *argv[]) {
 	if (argc == 1) {
@@ -215,4 +117,3 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 }
-

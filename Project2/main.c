@@ -1,14 +1,15 @@
-//
-// Created by kalen on 15.04.22.
-//
+// main.c
+// Řešení IJC-DU2, příklad 2), 16.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #include "htab.h"
-#include "htab_private.h"
 #include "io.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 #define MAX_LENGTH 200
+#define STARTING_SIZE 10000
 
 void print_data(htab_pair_t* pair) {
 	printf("%s: %d\n", pair->key, pair->value);
@@ -25,7 +26,7 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	htab_t *htab = htab_init(100);
+	htab_t *htab = htab_init(STARTING_SIZE);
 	if (htab == NULL) {
 		goto exit_failure;
 	}
@@ -40,25 +41,25 @@ int main(int argc, char *argv[]) {
 			check = htab_lookup_add(htab, word);
 			if (check == NULL) {
 				printf("Memory allocation failed.\n");
+				free(word);
 				goto exit_failure;
 			}
 		} else {
 			check->value++;
 		}
 	}
+	free(word);
 
 	void (*print)(htab_pair_t *) = print_data;
 	htab_for_each(htab, print);
 
 	fclose(file);
-	free(word);
 	htab_free(htab);
 	return EXIT_SUCCESS;
 
 exit_failure:
 	fprintf(stderr, "Memory allocation failed.\n");
 	fclose(file);
-	free(word);
 	htab_free(htab);
 	return EXIT_FAILURE;
 }

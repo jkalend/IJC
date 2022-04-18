@@ -1,6 +1,7 @@
-//
-// Created by kalen on 11.04.22.
-//
+// htab_resize.c
+// Řešení IJC-DU2, příklad 2), 17.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #include "htab.h"
 #include "htab_private.h"
@@ -9,12 +10,14 @@
 
 
 void htab_resize(htab_t *t, size_t size) {
+	//temporal table to hold content of the old table
 	htab_t *tmp = htab_init(t->arr_size);
 	if (tmp == NULL) {
 		exit(EXIT_FAILURE);
 	}
 
-
+	//copy content of the old table to the temporal table
+	//and clear the old table
 	for (unsigned int i = 0; i < t->arr_size; i++) {
 		htab_listitem_t *item = t->list[i];
 		if (item != NULL) {
@@ -22,8 +25,9 @@ void htab_resize(htab_t *t, size_t size) {
 		}
 		t->list[i] = NULL;
 	}
+	free(t->list);
 
-	htab_clear(t);
+	//resize the old table
 	t->list = malloc(size * sizeof(htab_listitem_t *));
 	if (t->list == NULL) {
 		fprintf(stderr, "Allocation failed\n");
@@ -35,11 +39,10 @@ void htab_resize(htab_t *t, size_t size) {
 		t->list[i] = NULL;
 	}
 
-
+	//rehash the content of the temporal table to the new table
 	for (unsigned int i = 0; i < tmp->arr_size; i++) {
 		htab_listitem_t *item = tmp->list[i];
 		while (item != NULL) {
-			//returns pointer -> can be modified here
 			htab_pair_t *check = htab_lookup_add(t, item->data->key);
 			if (check == NULL) {
 				fprintf(stderr, "Allocation failed\n");
@@ -50,6 +53,6 @@ void htab_resize(htab_t *t, size_t size) {
 		}
 	}
 
+	//free the temporal table
 	htab_free(tmp);
-
 }

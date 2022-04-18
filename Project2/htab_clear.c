@@ -1,6 +1,8 @@
-//
-// Created by kalen on 14.04.22.
-//
+// htab_clear.c
+// Řešení IJC-DU2, příklad 2), 15.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
+
 #include "htab.h"
 #include "htab_private.h"
 #include <stdlib.h>
@@ -18,8 +20,7 @@ void htab_clear(htab_t *t) {
 			htab_listitem_t *tmp = item;
 			item = item->next;
 			if (tmp->data->key != NULL) {
-				//const char *key = tmp->data->key;
-				free(tmp->data->key);
+				free((char *)tmp->data->key);
 			}
 			free(tmp->data);
 			free(tmp);

@@ -1,6 +1,7 @@
-//
-// Created by kalen on 16.4.22.
-//
+// io.h
+// Řešení IJC-DU2, příklad 2), 15.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
 
 #include <stdio.h>
 

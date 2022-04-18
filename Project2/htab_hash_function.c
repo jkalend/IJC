@@ -1,6 +1,8 @@
-//
-// Created by kalen on 11.04.22.
-//
+// htab_hash_function.c
+// Řešení IJC-DU2, příklad 2), 11.4.2022
+// Autor: Jan Kalenda, FIT
+// Přeloženo: gcc 11.2
+
 #include "htab.h"
 #include <stdint.h>
 
