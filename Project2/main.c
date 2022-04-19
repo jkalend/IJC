@@ -12,7 +12,7 @@
 #define STARTING_SIZE 150961
 
 void print_data(htab_pair_t* pair) {
-	printf("%s: %d\n", pair->key, pair->value);
+	printf("%s\t%d\n", pair->key, pair->value);
 }
 
 int main(void) {

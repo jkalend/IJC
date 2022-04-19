@@ -4,7 +4,7 @@
 # Přeloženo: gcc 11.2
 
 CC=gcc
-CFLAGS = -g -O0 -std=c11 -Wall -Wextra -pedantic
+CFLAGS = -g -O2 -std=c11 -Wall -Wextra -pedantic
 
 all: tail wordcount wordcount-dynamic libhtab.a libhtab.so
 
