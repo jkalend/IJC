@@ -8,11 +8,11 @@ CFLAGS = -g -O2 -std=c11 -Wall -Wextra -pedantic
 
 all: tail wordcount wordcount-dynamic libhtab.a libhtab.so
 
-wordcount-dynamic: main.o io.o libhtab.so
+wordcount-dynamic: wordcount.o io.o libhtab.so
 	$(CC) $(CFLAGS)  $^ -o $@
-wordcount: main.o io.o libhtab.a
+wordcount: wordcount.o io.o libhtab.a
 	$(CC) $(CFLAGS) $^ -o $@
-main.o: main.c
+wordcount.o: wordcount.c
 	$(CC) $(CFLAGS) -c $<
 io.o: io.c io.h
 	$(CC) $(CFLAGS) -c $<
