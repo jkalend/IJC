@@ -9,22 +9,13 @@
 #include <stdlib.h>
 
 #define MAX_LENGTH 200
-#define STARTING_SIZE 10000
+#define STARTING_SIZE 150961
 
 void print_data(htab_pair_t* pair) {
 	printf("%s: %d\n", pair->key, pair->value);
 }
 
-int main(int argc, char *argv[]) {
-	if (argc != 2) {
-		printf("Wrong number of arguments.\n");
-		exit(EXIT_FAILURE);
-	}
-	FILE *file = fopen(argv[1], "r");
-	if (file == NULL) {
-		printf("File not found.\n");
-		exit(EXIT_FAILURE);
-	}
+int main(void) {
 
 	htab_t *htab = htab_init(STARTING_SIZE);
 	if (htab == NULL) {
@@ -36,7 +27,7 @@ int main(int argc, char *argv[]) {
 	if (word == NULL) {
 		goto exit_failure;
 	}
-	while (read_word(word, MAX_LENGTH, file) != EOF) {
+	while (read_word(word, MAX_LENGTH, stdin) != EOF) {
 		if ((check = htab_find(htab, word)) == NULL) {
 			check = htab_lookup_add(htab, word);
 			if (check == NULL) {
@@ -53,13 +44,11 @@ int main(int argc, char *argv[]) {
 	void (*print)(htab_pair_t *) = print_data;
 	htab_for_each(htab, print);
 
-	fclose(file);
 	htab_free(htab);
 	return EXIT_SUCCESS;
 
 exit_failure:
 	fprintf(stderr, "Memory allocation failed.\n");
-	fclose(file);
 	htab_free(htab);
 	return EXIT_FAILURE;
 }

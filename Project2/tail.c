@@ -91,25 +91,43 @@ int main(int argc, char *argv[]) {
 
 		tail(stdin, strtol(argv[2], NULL, 10));
 	} else if (argc == 4) {
+		if (strcmp(argv[1], "-n") == 0) {
+			if (strtol(argv[2], NULL, 10) < 0) {
+				fprintf(stderr, "Invalid number of lines\n");
+				return 1;
+			}
+
+			FILE *fp = fopen(argv[3], "r");
+
+			if (fp == NULL) {
+				printf("File does not exist\n");
+				return 1;
+			}
+
+			tail(fp, strtol(argv[2], NULL, 10));
+			fclose(fp);
+		}
 		if (strcmp(argv[1], "-n") != 0) {
-			fprintf(stderr, "Invalid option\n");
-			return 1;
+			if (strcmp(argv[2], "-n") != 0) {
+				fprintf(stderr, "Invalid option\n");
+				return 1;
+			}
+			if (strtol(argv[3], NULL, 10) < 0) {
+				fprintf(stderr, "Invalid number of lines\n");
+				return 1;
+			}
+
+			FILE *fp = fopen(argv[1], "r");
+
+			if (fp == NULL) {
+				printf("File does not exist\n");
+				return 1;
+			}
+
+			tail(fp, strtol(argv[3], NULL, 10));
+			fclose(fp);
 		}
 
-		if (strtol(argv[2], NULL, 10) < 0) {
-			fprintf(stderr, "Invalid number of lines\n");
-			return 1;
-		}
-
-		FILE *fp = fopen(argv[3], "r");
-
-		if (fp == NULL) {
-			printf("File does not exist\n");
-			return 1;
-		}
-
-		tail(fp, strtol(argv[2], NULL, 10));
-		fclose(fp);
 	} else {
 		fprintf(stderr, "Invalid arguments\n");
 		return 1;
